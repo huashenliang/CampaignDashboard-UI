@@ -1,9 +1,10 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
 import { campaignsReducer } from "./api/campaignsReducer";
-
+import { currentCampReducer } from "./ui/currentCampReducer";
 
 const RootReducer = combineReducers({
-    campaigns: campaignsReducer
+    campaigns: campaignsReducer,
+    currentCamp: currentCampReducer
 });
 
 export default RootReducer

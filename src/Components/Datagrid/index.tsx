@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { CDataTable, CButton } from '@coreui/react';
 import { useDispatch, useSelector } from "react-redux";
 import { setCampaignList } from "../../Actions/getCampaignAction";
+import { setCurrentCamp } from "../../Actions/setCurrentCampAction";
 import { RootStore } from "../../Store";
 import { useHistory } from "react-router-dom";
 
@@ -24,6 +25,7 @@ const Datagrid: React.FC = () => {
 
     const handleRowClick = (row: rowData) => {
         console.log(row);
+        dispatch(setCurrentCamp(row.name));
         history.push(`/dashboard/${row.id}`)
     }
 

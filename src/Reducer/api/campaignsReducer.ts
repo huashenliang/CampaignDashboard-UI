@@ -1,5 +1,4 @@
 import { CAMPAIGN_FAIL, CAMPAIGN_LOADING, CAMPAIGN_SUCCESS, CampaignDispatchTypes, CampaignType } from '../../Actions/actionTypes';
-
 interface ICampaignState {
     loading: boolean,
     campaignList?: CampaignType
