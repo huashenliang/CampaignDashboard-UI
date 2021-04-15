@@ -9,7 +9,7 @@ export interface ICampaignState {
     campaigns: ICampaign[]
 }
 
-export const campaignsReducer = (state: ICampaignState = initialState, action: CampaignAction) => {
+export const campaignsReducer = (state: ICampaignState = initialState, action: CampaignAction): ICampaignState => {
     switch (action.type) {
         case SET_CAMPAIGNLIST:
             return {
