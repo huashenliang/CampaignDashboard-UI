@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Datagrid from "../../Components/Datagrid";
-import { CContainer, CCardBody, CCard } from '@coreui/react'
+import { CContainer, CCardBody, CCard } from "@coreui/react";
 
 const CampaignList: React.FC = () => {
 

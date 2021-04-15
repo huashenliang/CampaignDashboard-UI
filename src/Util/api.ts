@@ -7,5 +7,9 @@ export const fetchCampaignList = async () => {
     return res;
 }
 
+export const fetchCampaginDetailById = async (id: number, time: number) => {
+    const res = await axios.get(`${baseUrl}/campaigns/${id}?number=${time}`);
+    return res;
+}
 
 
