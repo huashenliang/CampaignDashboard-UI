@@ -1,13 +1,13 @@
 import * as React from 'react';
 import Datagrid from "../../Components/Datagrid";
-import { CContainer, CRow, CCardBody, CCard, CFade } from '@coreui/react'
+import { CContainer, CCardBody, CCard } from '@coreui/react'
 
 const CampaignList: React.FC = () => {
 
-
     return (
-        <CContainer>
-            <CCard>
+        <CContainer className="mt-5">
+            <h1>Campaign List</h1>
+            <CCard className="mt-3">
                 <CCardBody>
                     <Datagrid />
                 </CCardBody>

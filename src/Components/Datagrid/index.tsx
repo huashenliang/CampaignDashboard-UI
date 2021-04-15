@@ -1,28 +1,26 @@
-import * as React from 'react';
+import React, { useEffect } from 'react';
 import { CDataTable } from '@coreui/react';
+import { useDispatch, useSelector } from "react-redux";
+import { setCampaignList } from "../../Actions/getCampaignAction";
+import { RootStore } from '../../Store';
 
-interface ICampaignData {
-    id: number,
-    campaignName: string
-}
-
-const usersData = [
-    { id: 0, campaignName: 'John Doe' },
-    { id: 1, campaignName: 'Samppa Nori' },
-    { id: 2, campaignName: 'Estavan Lykos' },
+const fields = [
+    { key: 'id', _style: { width: '40%' } },
+    { key: 'name', _style: { width: '40%' } },
 ]
 
 const Datagrid: React.FC = () => {
-    const [details, setDetails] = React.useState<ICampaignData[]>(usersData);
+    const dispatch = useDispatch();
+    const campaignState = useSelector((state: RootStore) => state.campaigns.campaignList);
+    const data = campaignState?.campaigns;
 
-    const fields = [
-        { key: 'id', _style: { width: '40%' } },
-        { key: 'campaignName', _style: { width: '40%' } },
-    ]
+    useEffect(() => {
+        dispatch(setCampaignList());
+    }, []);
 
     return (
         <CDataTable
-            items={usersData}
+            items={data}
             fields={fields}
             columnFilter
             tableFilter
