@@ -2,13 +2,24 @@ import React from 'react';
 import { CWidgetDropdown, } from '@coreui/react';
 import ChartLineSimple from "../Chart/ChartLineSimple";
 
-const Card: React.FC = () => {
+
+type Props = {
+    color: string,
+    header: string,
+    text: string,
+    label: string,
+    labels: string,
+    pointBackgroundColor: string,
+    pointHoverBackgroundColor: string,
+}
+
+const SimpleLineChartCard: React.FC<Props> = (props) => {
 
     return (
         <CWidgetDropdown
-            color="gradient-primary"
-            header="9.823"
-            text="Members online"
+            color={props.color}
+            header={props.header}
+            text={props.text}
             footerSlot={
                 <ChartLineSimple
                     pointed
@@ -17,9 +28,10 @@ const Card: React.FC = () => {
                     dataPoints={[65, 59, 84, 84, 51, 55, 40]}
                     backgroundColor="rgba(255,255,255,.2)"
                     borderColor="rgba(255,255,255,.55)"
-                    pointHoverBackgroundColor="primary"
-                    label="Members"
-                    labels="months"
+                    pointBackgroundColor={props.pointBackgroundColor}
+                    pointHoverBackgroundColor={props.pointHoverBackgroundColor}
+                    label={props.label}
+                    labels={props.labels}
                 />
             }
         >
@@ -27,4 +39,4 @@ const Card: React.FC = () => {
     )
 }
 
-export default Card;
+export default SimpleLineChartCard;

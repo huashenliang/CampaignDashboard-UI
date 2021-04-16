@@ -5,11 +5,12 @@ const { deepObjectsMerge } = require('@coreui/utils');
 
 
 type Props = {
-    backgroundColor: string,
-    borderColor: string,
+    backgroundColor?: string,
+    borderColor?: string,
     className: string,
     label: string,
     labels: string,
+    pointBackgroundColor: string,
     pointHoverBackgroundColor: string,
     pointed: boolean,
     dataPoints: number[] | [],
@@ -26,6 +27,7 @@ const ChartLineSimple: React.FC<Props> = props => {
         dataPoints,
         label,
         pointed,
+        pointBackgroundColor,
         ...attributes
     } = props
 
@@ -44,7 +46,7 @@ const ChartLineSimple: React.FC<Props> = props => {
                 data: dataPoints,
                 borderColor: getColor(borderColor),
                 backgroundColor: getColor(backgroundColor),
-                pointBackgroundColor: getColor(pointHoverColor),
+                pointBackgroundColor,
                 pointHoverBackgroundColor: getColor(pointHoverColor),
                 label
             }

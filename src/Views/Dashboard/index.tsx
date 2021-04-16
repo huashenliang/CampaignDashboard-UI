@@ -5,7 +5,7 @@ import { useParams, Redirect } from "react-router-dom";
 import { RootStore } from "../../Store";
 import { useSelector } from "react-redux";
 import { fetchCampaginDetailById } from "../../Util/api";
-import Card from "../../Components/Card";
+import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
 interface DashboardParams {
     id: string
 }
@@ -61,16 +61,32 @@ const Dashboard: React.FC = () => {
 
             <CRow>
                 <CCol sm="6" lg="3">
-                    <Card />
+                    <SimpleLineChartCard color="gradient-primary" text="Members online" header="test"
+                        pointHoverBackgroundColor="primary"
+                        pointBackgroundColor="#1f1498"
+                        label="Members"
+                        labels="months" />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <Card />
+                    <SimpleLineChartCard color="gradient-info" text="Members online" header="test"
+                        pointHoverBackgroundColor="primary"
+                        label="Members"
+                        labels="months"
+                        pointBackgroundColor="#2982cc" />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <Card />
+                    <SimpleLineChartCard color="gradient-warning" text="Members online" header="test"
+                        pointHoverBackgroundColor="primary"
+                        label="Members"
+                        labels="months"
+                        pointBackgroundColor="#f9b115" />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <Card />
+                    <SimpleLineChartCard color="gradient-danger" text="Members online" header="test"
+                        pointHoverBackgroundColor="primary"
+                        label="Members"
+                        labels="months"
+                        pointBackgroundColor="#e55353" />
                 </CCol>
             </CRow>
         </CContainer>
