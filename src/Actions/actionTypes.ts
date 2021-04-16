@@ -5,7 +5,7 @@ export const CAMPAIGN_SUCCESS = "CAMPAIGN_SUCCESS";
 
 export const SET_CURRENT_CAMP = "SET_CURRENT_CAMP";
 
-//Get Champaign list
+// ============================== Campagin List ==============================
 export type CampaignType = {
     campaigns: []
 }
@@ -26,7 +26,7 @@ export interface CampaignSuccess {
 export type CampaignDispatchTypes = CampaignLoading | CampaignFail | CampaignSuccess;
 
 
-// Current Campagin
+// ============================== Current Campagin ==============================
 export interface CurrentCamp {
     type: typeof SET_CURRENT_CAMP,
     payload: string
