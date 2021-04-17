@@ -3,11 +3,10 @@ import { useParams, Redirect } from "react-router-dom";
 import { RootStore } from "../../Store";
 import { useSelector } from "react-redux";
 import { fetchCampaginDetailById } from "../../Util/api";
+import SingleLineChart from "../../Components/Chart/LineChart/SingleLineChart";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
 import { CContainer, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon, CWidgetSimple } from "@coreui/react";
-import CIcon from '@coreui/icons-react'
 import * as _ from "lodash";
-import { } from '@coreui/icons';
 
 interface DashboardParams {
     id: string
@@ -142,20 +141,14 @@ const Dashboard: React.FC = () => {
 
             <CRow>
                 <CCol sm="12" lg="9">
-                    <CWidgetProgressIcon
-                        header="87.500"
-                        text="Visitors"
-                        color="gradient-info"
-                    >
-                        <CIcon name="cil-people" height="36" />
-                    </CWidgetProgressIcon>
+                    <SingleLineChart label={"Impressions Number: "} data={impressionData} backgroundColor="#4e51c1" labelNumber={counter} />
                 </CCol>
                 <CCol sm="12" lg="3">
                     <CWidgetSimple header="Current Number of Pull" text={(counter + 1).toString()} />
                     <CWidgetSimple header="Recent CTR" text={recentCTR.toString()} />
                     <CWidgetSimple header="Recent Clicks" text={recentClicks.toString()} />
                     <CWidgetSimple header="Recent Users" text={recentUsers.toString()} />
-                    <CWidgetSimple header="Recent Users" text={recentImpressions.toString()} />
+                    <CWidgetSimple header="Recent Impressions" text={recentImpressions.toString()} />
                 </CCol>
             </CRow>
         </CContainer>
