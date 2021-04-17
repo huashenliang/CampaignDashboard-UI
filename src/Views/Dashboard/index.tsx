@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import * as _ from "lodash";
-import { CContainer, CCardBody, CCard, CRow, CCol } from "@coreui/react";
 import { useParams, Redirect } from "react-router-dom";
 import { RootStore } from "../../Store";
 import { useSelector } from "react-redux";
 import { fetchCampaginDetailById } from "../../Util/api";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
+import { CContainer, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon } from "@coreui/react";
+import CIcon from '@coreui/icons-react'
+import * as _ from "lodash";
+
 interface DashboardParams {
     id: string
 }
@@ -30,9 +32,12 @@ const Dashboard: React.FC = () => {
     const [usersData, setUsersData] = useState<number[]>([]);
     const [ctrData, setCtrData] = useState<number[]>([]);
 
-
     const param = useParams<DashboardParams>();
-    const currentCampState = useSelector((state: RootStore) => state.currentCamp.campaignName);
+    const campaignName = useSelector((state: RootStore) => state.currentCamp.campaignName);
+
+    const calculateCtr = (clicksArr: number[], impressionsArr: number[]): number => {
+        return Number((_.sum(clicksArr) / _.sum(impressionsArr) * 100).toFixed(2));
+    }
 
     const setAllData = (data: data) => {
         setCampaignDataArr(prev => [...prev, data]);
@@ -40,6 +45,13 @@ const Dashboard: React.FC = () => {
         setClicksData(prev => [...prev, data.clicks]);
         setUsersData(prev => [...prev, data.users]);
     }
+
+    useEffect(() => {
+        if (clicksData.length && impressionData.length && clicksData.length == impressionData.length) {
+            setCtrData(prev => [...prev, calculateCtr(clicksData, impressionData)]);
+        }
+    }, [clicksData, impressionData])
+
 
     useEffect(() => {
         let mount = true;
@@ -59,13 +71,13 @@ const Dashboard: React.FC = () => {
         }
     }, [counter]);
 
-    if (_.isEmpty(param) || _.isEmpty(currentCampState)) {
+    if (_.isEmpty(param) || _.isEmpty(campaignName)) {
         return <Redirect to="/" />
     }
 
     return (
         <CContainer className="mt-5">
-            <h1>Dashboard: {recentCampaignData}</h1>
+            <h1>Dashboard: {campaignName}</h1>
             <CCard className="mt-3">
                 <CCardBody>
                     counter: {counter}
@@ -77,36 +89,57 @@ const Dashboard: React.FC = () => {
 
             <CRow>
                 <CCol sm="6" lg="3">
-                    <SimpleLineChartCard color="gradient-primary" text="Total Impressions" header="Impressions"
+                    <SimpleLineChartCard color="gradient-primary" text="Total Impressions"
                         pointHoverBackgroundColor="primary"
                         pointBackgroundColor="#1f1498"
                         label="Members"
                         labels="months"
-                        chartData={impressionData} />
+                        chartData={impressionData}
+                        showSum={true}
+                    />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <SimpleLineChartCard color="gradient-info" text="Total Clicks" header="Clicks"
+                    <SimpleLineChartCard color="gradient-info" text="Total Clicks"
                         pointHoverBackgroundColor="primary"
                         label="Members"
                         labels="months"
                         pointBackgroundColor="#2982cc"
-                        chartData={clicksData} />
+                        chartData={clicksData}
+                        showSum={true}
+                    />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <SimpleLineChartCard color="gradient-warning" text="Total Users" header="Users"
+                    <SimpleLineChartCard color="gradient-warning" text="Total Users"
                         pointHoverBackgroundColor="primary"
                         label="Members"
                         labels="months"
                         pointBackgroundColor="#f9b115"
-                        chartData={usersData} />
+                        chartData={usersData}
+                        showSum={true}
+                    />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <SimpleLineChartCard color="gradient-danger" text="Members online" header="test"
+                    <SimpleLineChartCard color="gradient-danger" text="Total CTR"
                         pointHoverBackgroundColor="primary"
-                        label="Members"
-                        labels="months"
+                        label="CTR"
+                        labels="Seconds"
                         pointBackgroundColor="#e55353"
-                        chartData={impressionData} />
+                        chartData={ctrData}
+                        showSum={false}
+                    />
+
+                </CCol>
+            </CRow>
+
+            <CRow>
+                <CCol>
+                    <CWidgetProgressIcon
+                        header="87.500"
+                        text="Visitors"
+                        color="gradient-info"
+                    >
+                        <CIcon name="cil-people" height="36" />
+                    </CWidgetProgressIcon>
                 </CCol>
             </CRow>
         </CContainer>

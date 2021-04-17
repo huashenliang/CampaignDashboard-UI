@@ -6,33 +6,43 @@ import ChartLineSimple from "../Chart/ChartLineSimple";
 type Props = {
     chartData: number[] | [],
     color: string,
-    header: string,
     text: string,
     label: string,
     labels: string,
+    showSum: boolean,
     pointBackgroundColor: string,
     pointHoverBackgroundColor: string,
 }
 
 const SimpleLineChartCard: React.FC<Props> = (props) => {
 
-    const { chartData, color, header, text, pointBackgroundColor, pointHoverBackgroundColor, label, labels } = props;
+    const { chartData, color, text, pointBackgroundColor, pointHoverBackgroundColor, label, labels, showSum } = props;
     const [currentSum, setCurrentSum] = useState(0);
+    const [currentNum, setCurrentNum] = useState(0);
 
     const chunckDataArr = (chartData: number[]): number[] | [] => {
         if (chartData.length > 10) return chartData.slice(-10);
         return chartData;
     }
 
+    const conditionalCalculaion = () => {
+        if (showSum) {
+            if (chartData.length == 1) setCurrentSum(currentSum + chartData[0]);
+            if (chartData.length > 1) setCurrentSum(currentSum + chartData[chartData.length - 1]);
+        } else {
+            if (chartData.length == 1) setCurrentNum(chartData[0]);
+            if (chartData.length > 1) setCurrentNum(chartData[chartData.length - 1]);
+        }
+    }
+
     useEffect(() => {
-        if (chartData.length == 1) setCurrentSum(currentSum + chartData[0]);
-        if (chartData.length > 1) setCurrentSum(currentSum + chartData[chartData.length - 1]);
+        conditionalCalculaion();
     }, [chartData]);
 
     return (
         <CWidgetDropdown
             color={color}
-            header={currentSum.toString()}
+            header={showSum ? currentSum.toString() : currentNum.toFixed(2)}
             text={text}
             footerSlot={
                 <ChartLineSimple

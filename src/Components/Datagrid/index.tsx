@@ -24,7 +24,6 @@ const Datagrid: React.FC = () => {
     const data = campaignState?.campaigns;
 
     const handleRowClick = (row: rowData) => {
-        console.log(row);
         dispatch(setCurrentCamp(row.name));
         history.push(`/dashboard/${row.id}`)
     }
