@@ -10,6 +10,11 @@ interface DashboardParams {
     id: string
 }
 
+interface data {
+    impressions: number,
+    clicks: number,
+    users: number
+}
 interface CampaignData {
     impressions: number,
     clicks: number,
@@ -20,20 +25,31 @@ const Dashboard: React.FC = () => {
     const [counter, setCounter] = useState(0);
     const [campaignDataArr, setCampaignDataArr] = useState<CampaignData[]>([]);
     const [recentCampaignData, setRecentCampaignData] = useState<CampaignData>();
+    const [impressionData, setImpressionData] = useState<number[]>([]);
+    const [clicksData, setClicksData] = useState<number[]>([]);
+    const [usersData, setUsersData] = useState<number[]>([]);
+    const [ctrData, setCtrData] = useState<number[]>([]);
+
 
     const param = useParams<DashboardParams>();
     const currentCampState = useSelector((state: RootStore) => state.currentCamp.campaignName);
+
+    const setAllData = (data: data) => {
+        setCampaignDataArr(prev => [...prev, data]);
+        setImpressionData(prev => [...prev, data.impressions]);
+        setClicksData(prev => [...prev, data.clicks]);
+        setUsersData(prev => [...prev, data.users]);
+    }
 
     useEffect(() => {
         let mount = true;
         const fetchData = async () => {
             const result = await fetchCampaginDetailById(parseInt(param.id), counter);
-            console.log(result);
-            if (result.data && mount) {
-                setCampaignDataArr(prevArr => [...prevArr, result.data]);
-            }
+            if (result.data && mount) setAllData(result.data);
         };
+
         fetchData();
+
         //set timer, run fetch data every 5 seconds
         const interval = setInterval(() => setCounter(counter + 1), 5000);
         //clearing when unmount
@@ -46,7 +62,7 @@ const Dashboard: React.FC = () => {
     if (_.isEmpty(param) || _.isEmpty(currentCampState)) {
         return <Redirect to="/" />
     }
-    console.log(campaignDataArr);
+
     return (
         <CContainer className="mt-5">
             <h1>Dashboard: {recentCampaignData}</h1>
@@ -61,32 +77,36 @@ const Dashboard: React.FC = () => {
 
             <CRow>
                 <CCol sm="6" lg="3">
-                    <SimpleLineChartCard color="gradient-primary" text="Members online" header="test"
+                    <SimpleLineChartCard color="gradient-primary" text="Total Impressions" header="Impressions"
                         pointHoverBackgroundColor="primary"
                         pointBackgroundColor="#1f1498"
                         label="Members"
-                        labels="months" />
+                        labels="months"
+                        chartData={impressionData} />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <SimpleLineChartCard color="gradient-info" text="Members online" header="test"
+                    <SimpleLineChartCard color="gradient-info" text="Total Clicks" header="Clicks"
                         pointHoverBackgroundColor="primary"
                         label="Members"
                         labels="months"
-                        pointBackgroundColor="#2982cc" />
+                        pointBackgroundColor="#2982cc"
+                        chartData={clicksData} />
                 </CCol>
                 <CCol sm="6" lg="3">
-                    <SimpleLineChartCard color="gradient-warning" text="Members online" header="test"
+                    <SimpleLineChartCard color="gradient-warning" text="Total Users" header="Users"
                         pointHoverBackgroundColor="primary"
                         label="Members"
                         labels="months"
-                        pointBackgroundColor="#f9b115" />
+                        pointBackgroundColor="#f9b115"
+                        chartData={usersData} />
                 </CCol>
                 <CCol sm="6" lg="3">
                     <SimpleLineChartCard color="gradient-danger" text="Members online" header="test"
                         pointHoverBackgroundColor="primary"
                         label="Members"
                         labels="months"
-                        pointBackgroundColor="#e55353" />
+                        pointBackgroundColor="#e55353"
+                        chartData={impressionData} />
                 </CCol>
             </CRow>
         </CContainer>

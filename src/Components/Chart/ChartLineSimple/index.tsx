@@ -5,6 +5,7 @@ const { deepObjectsMerge } = require('@coreui/utils');
 
 
 type Props = {
+    chartData?: number[],
     backgroundColor?: string,
     borderColor?: string,
     className: string,
