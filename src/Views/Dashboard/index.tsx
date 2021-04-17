@@ -26,12 +26,16 @@ interface CampaignData {
 
 const Dashboard: React.FC = () => {
     const [counter, setCounter] = useState(0);
-    const [campaignDataArr, setCampaignDataArr] = useState<CampaignData[]>([]);
-    const [recentCampaignData, setRecentCampaignData] = useState<CampaignData>();
+
     const [impressionData, setImpressionData] = useState<number[]>([]);
     const [clicksData, setClicksData] = useState<number[]>([]);
     const [usersData, setUsersData] = useState<number[]>([]);
     const [ctrData, setCtrData] = useState<number[]>([]);
+
+    const [recentImpressions, setRecentImpressions] = useState<number>(0);
+    const [recentClicks, setRecentClicks] = useState<number>(0);
+    const [recentUsers, setRecentUsers] = useState<number>(0);
+    const [recentCTR, setRecentCTR] = useState<number>(0);
 
     const param = useParams<DashboardParams>();
     const campaignName = useSelector((state: RootStore) => state.currentCamp.campaignName);
@@ -41,8 +45,15 @@ const Dashboard: React.FC = () => {
         return Number((_.sum(clicksArr) / _.sum(impressionsArr) * 100).toFixed(2));
     }
 
+    const calculateRecentCTR = (clicks: number, impression: number): number => {
+        return Number((clicks / impression * 100).toFixed(2));
+    }
+
     const setAllData = (data: data) => {
-        setCampaignDataArr(prev => [...prev, data]);
+        setRecentClicks(data.clicks);
+        setRecentUsers(data.users);
+        setRecentImpressions(data.impressions);
+        setRecentCTR(calculateRecentCTR(data.clicks, data.impressions));
         setImpressionData(prev => [...prev, data.impressions]);
         setClicksData(prev => [...prev, data.clicks]);
         setUsersData(prev => [...prev, data.users]);
@@ -84,14 +95,6 @@ const Dashboard: React.FC = () => {
                     <h1>Campaign: {campaignName}</h1>
                 </CCol>
             </CRow>
-            {/* <CCard className="mt-3">
-                <CCardBody>
-                    counter: {counter}
-                    Recent Impressions: {recentCampaignData?.impressions}
-                    Recent Clicks: {recentCampaignData?.clicks}
-                    Recent Users: {recentCampaignData?.users}
-                </CCardBody>
-            </CCard> */}
 
             <CRow className="mt-3">
                 <CCol sm="6" lg="3">
@@ -148,8 +151,11 @@ const Dashboard: React.FC = () => {
                     </CWidgetProgressIcon>
                 </CCol>
                 <CCol sm="12" lg="3">
-                    <CWidgetSimple header="Current Number of Pull" text={counter.toString()}>
-                    </CWidgetSimple>
+                    <CWidgetSimple header="Current Number of Pull" text={(counter + 1).toString()} />
+                    <CWidgetSimple header="Recent CTR" text={recentCTR.toString()} />
+                    <CWidgetSimple header="Recent Clicks" text={recentClicks.toString()} />
+                    <CWidgetSimple header="Recent Users" text={recentUsers.toString()} />
+                    <CWidgetSimple header="Recent Users" text={recentImpressions.toString()} />
                 </CCol>
             </CRow>
         </CContainer>
