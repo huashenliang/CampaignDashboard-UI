@@ -4,6 +4,7 @@ import { CChartLine } from '@coreui/react-chartjs';
 
 
 type Props = {
+    header: string,
     label: string,
     backgroundColor: string,
     data: number[],
@@ -12,7 +13,7 @@ type Props = {
 
 const SingleLineChart: React.FC<Props> = (props) => {
 
-    const { label, backgroundColor, data, labelNumber } = props;
+    const { header, label, backgroundColor, data, labelNumber } = props;
     const [labelsArr, setLabelArr] = useState<number[]>([]);
 
     useEffect(() => {
@@ -58,7 +59,7 @@ const SingleLineChart: React.FC<Props> = (props) => {
     return (
         <CCard>
             <CCardHeader>
-                Line Chart
+                <h2>{header}</h2>
             </CCardHeader>
             <CCardBody>
                 <CChartLine

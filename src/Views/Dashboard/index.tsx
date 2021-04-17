@@ -23,6 +23,24 @@ interface CampaignData {
     users: number
 }
 
+const colorObj = {
+    impression: {
+        light: "#4e51c1",
+        dark: "#1f1498"
+    },
+    click: {
+        light: "#6da4e4",
+        dark: "#2982cc"
+    },
+    user: {
+        light: "#f0b764",
+        dark: "#f9b115"
+    },
+    ctr: {
+        light: "#da7673",
+        dark: "#e55353"
+    }
+}
 const Dashboard: React.FC = () => {
     const [counter, setCounter] = useState(0);
 
@@ -69,7 +87,7 @@ const Dashboard: React.FC = () => {
         let mount = true;
         const fetchData = async () => {
             const result = await fetchCampaginDetailById(parseInt(param.id), counter);
-            if (result.data && mount) setAllData(result.data);
+            if (result.data as CampaignData && mount) setAllData(result.data);
         };
 
         fetchData();
@@ -99,9 +117,9 @@ const Dashboard: React.FC = () => {
                 <CCol sm="6" lg="3">
                     <SimpleLineChartCard color="gradient-primary" text="Total Impressions"
                         pointHoverBackgroundColor="primary"
-                        pointBackgroundColor="#1f1498"
-                        label="Members"
-                        labels="months"
+                        pointBackgroundColor={colorObj.impression.dark}
+                        label="Impressions"
+                        labels="Seconds"
                         chartData={impressionData}
                         showSum={true}
                     />
@@ -109,9 +127,9 @@ const Dashboard: React.FC = () => {
                 <CCol sm="6" lg="3">
                     <SimpleLineChartCard color="gradient-info" text="Total Clicks"
                         pointHoverBackgroundColor="primary"
-                        label="Members"
-                        labels="months"
-                        pointBackgroundColor="#2982cc"
+                        label="Clicks"
+                        labels="Seconds"
+                        pointBackgroundColor={colorObj.click.dark}
                         chartData={clicksData}
                         showSum={true}
                     />
@@ -119,9 +137,9 @@ const Dashboard: React.FC = () => {
                 <CCol sm="6" lg="3">
                     <SimpleLineChartCard color="gradient-warning" text="Total Users"
                         pointHoverBackgroundColor="primary"
-                        label="Members"
-                        labels="months"
-                        pointBackgroundColor="#f9b115"
+                        label="Users"
+                        labels="Seconds"
+                        pointBackgroundColor={colorObj.user.dark}
                         chartData={usersData}
                         showSum={true}
                     />
@@ -131,7 +149,7 @@ const Dashboard: React.FC = () => {
                         pointHoverBackgroundColor="primary"
                         label="CTR"
                         labels="Seconds"
-                        pointBackgroundColor="#e55353"
+                        pointBackgroundColor={colorObj.ctr.dark}
                         chartData={ctrData}
                         showSum={false}
                     />
@@ -141,7 +159,11 @@ const Dashboard: React.FC = () => {
 
             <CRow>
                 <CCol sm="12" lg="9">
-                    <SingleLineChart label={"Impressions Number: "} data={impressionData} backgroundColor="#4e51c1" labelNumber={counter} />
+                    <SingleLineChart header="Number of Impressions" label={"Impressions Number: "} data={impressionData} backgroundColor={colorObj.impression.light} labelNumber={counter} />
+                    <SingleLineChart header="Number of Clicks" label={"Number of Clicks: "} data={clicksData} backgroundColor={colorObj.click.light} labelNumber={counter} />
+                    <SingleLineChart header="Number of Users Visited" label={"Number of Users Visted: "} data={usersData} backgroundColor={colorObj.user.light} labelNumber={counter} />
+                    <SingleLineChart header="Click Through Rate" label={"CTR: "} data={ctrData} backgroundColor={colorObj.ctr.light} labelNumber={counter} />
+
                 </CCol>
                 <CCol sm="12" lg="3">
                     <CWidgetSimple header="Current Number of Pull" text={(counter + 1).toString()} />
