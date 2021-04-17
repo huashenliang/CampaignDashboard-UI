@@ -4,9 +4,10 @@ import { RootStore } from "../../Store";
 import { useSelector } from "react-redux";
 import { fetchCampaginDetailById } from "../../Util/api";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
-import { CContainer, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon } from "@coreui/react";
+import { CContainer, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon, CWidgetSimple } from "@coreui/react";
 import CIcon from '@coreui/icons-react'
 import * as _ from "lodash";
+import { } from '@coreui/icons';
 
 interface DashboardParams {
     id: string
@@ -35,6 +36,7 @@ const Dashboard: React.FC = () => {
     const param = useParams<DashboardParams>();
     const campaignName = useSelector((state: RootStore) => state.currentCamp.campaignName);
 
+    //Calculating total CTR by (total clicks/ total impressions * 100)
     const calculateCtr = (clicksArr: number[], impressionsArr: number[]): number => {
         return Number((_.sum(clicksArr) / _.sum(impressionsArr) * 100).toFixed(2));
     }
@@ -77,17 +79,21 @@ const Dashboard: React.FC = () => {
 
     return (
         <CContainer className="mt-5">
-            <h1>Dashboard: {campaignName}</h1>
-            <CCard className="mt-3">
+            <CRow>
+                <CCol>
+                    <h1>Campaign: {campaignName}</h1>
+                </CCol>
+            </CRow>
+            {/* <CCard className="mt-3">
                 <CCardBody>
                     counter: {counter}
                     Recent Impressions: {recentCampaignData?.impressions}
                     Recent Clicks: {recentCampaignData?.clicks}
                     Recent Users: {recentCampaignData?.users}
                 </CCardBody>
-            </CCard>
+            </CCard> */}
 
-            <CRow>
+            <CRow className="mt-3">
                 <CCol sm="6" lg="3">
                     <SimpleLineChartCard color="gradient-primary" text="Total Impressions"
                         pointHoverBackgroundColor="primary"
@@ -132,7 +138,7 @@ const Dashboard: React.FC = () => {
             </CRow>
 
             <CRow>
-                <CCol>
+                <CCol sm="12" lg="9">
                     <CWidgetProgressIcon
                         header="87.500"
                         text="Visitors"
@@ -140,6 +146,10 @@ const Dashboard: React.FC = () => {
                     >
                         <CIcon name="cil-people" height="36" />
                     </CWidgetProgressIcon>
+                </CCol>
+                <CCol sm="12" lg="3">
+                    <CWidgetSimple header="Current Number of Pull" text={counter.toString()}>
+                    </CWidgetSimple>
                 </CCol>
             </CRow>
         </CContainer>

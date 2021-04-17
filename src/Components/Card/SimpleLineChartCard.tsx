@@ -25,6 +25,7 @@ const SimpleLineChartCard: React.FC<Props> = (props) => {
         return chartData;
     }
 
+    //conditional for CTR number
     const conditionalCalculaion = () => {
         if (showSum) {
             if (chartData.length == 1) setCurrentSum(currentSum + chartData[0]);

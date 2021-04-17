@@ -1212,7 +1212,7 @@
     "classnames" "^2.2.6"
     "prop-types" "^15.7.2"
 
-"@coreui/icons@^2.0.0", "@coreui/icons@^2.0.0-rc.0":
+"@coreui/icons@^2.0.0-rc.0", "@coreui/icons@^2.0.1":
   "integrity" "sha512-gBfFRLPUt3Bv9EZbJRbT3sQRHrhH0c4dRbeE9GpWJgJY8kvE9+3Hf5xGK9XyQhFynHx4o2WQeMxsReQLddlK9w=="
   "resolved" "https://registry.npmjs.org/@coreui/icons/-/icons-2.0.1.tgz"
   "version" "2.0.1"
