@@ -8,17 +8,12 @@ type Props = {
     label: string,
     backgroundColor: string,
     data: number[],
-    labelNumber: number
+    labelsArr: number[]
 }
 
 const SingleLineChart: React.FC<Props> = (props) => {
 
-    const { header, label, backgroundColor, data, labelNumber } = props;
-    const [labelsArr, setLabelArr] = useState<number[]>([]);
-
-    useEffect(() => {
-        setLabelArr(prev => [...prev, labelNumber])
-    }, [labelNumber]);
+    const { header, label, backgroundColor, data, labelsArr } = props;
 
     const defaultOptions = (() => {
         return {

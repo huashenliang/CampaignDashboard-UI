@@ -1,10 +1,8 @@
 import React from "react";
-import {
-    CContainer, CNavItem, CSidebar, CSidebarNav, CSidebarNavItem, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon, CWidgetSimple, CWidgetIcon
-} from "@coreui/react";
+import { CContainer, CRow, CCol, CWidgetSimple } from "@coreui/react";
 import SingleLineChart from "../../Components/Chart/LineChart/SingleLineChart";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
-import { colorObj } from "./DataBoard";
+import { colorObj } from "../../Util/util";
 
 type Props = {
     campaignName: string,
@@ -12,6 +10,7 @@ type Props = {
     clicksData: number[],
     usersData: number[],
     ctrData: number[],
+    labelsArr: number[],
     counter: number,
     recentImpressions: number,
     recentClicks: number,
@@ -23,7 +22,7 @@ type Props = {
 
 const AllBoards: React.FC<Props> = (props) => {
 
-    const { campaignName, impressionData, clicksData, usersData, ctrData, counter, recentImpressions, recentClicks,
+    const { campaignName, impressionData, clicksData, usersData, ctrData, labelsArr, counter, recentImpressions, recentClicks,
         recentUsers, recentCTR, conditiaonalColor } = props;
 
     return (
@@ -80,10 +79,10 @@ const AllBoards: React.FC<Props> = (props) => {
 
             <CRow>
                 <CCol sm="12" lg="9">
-                    <SingleLineChart header="Number of Impressions" label={"Impressions Number: "} data={impressionData} backgroundColor={colorObj.impression.light} labelNumber={counter} />
-                    <SingleLineChart header="Number of Clicks" label={"Number of Clicks: "} data={clicksData} backgroundColor={colorObj.click.light} labelNumber={counter} />
-                    <SingleLineChart header="Number of Users Visited" label={"Number of Users Visted: "} data={usersData} backgroundColor={colorObj.user.light} labelNumber={counter} />
-                    <SingleLineChart header="Click Through Rate" label={"CTR: "} data={ctrData} backgroundColor={colorObj.ctr.light} labelNumber={counter} />
+                    <SingleLineChart header="Number of Impressions" label={"Impressions Number: "} data={impressionData} backgroundColor={colorObj.impression.light} labelsArr={labelsArr} />
+                    <SingleLineChart header="Number of Clicks" label={"Number of Clicks: "} data={clicksData} backgroundColor={colorObj.click.light} labelsArr={labelsArr} />
+                    <SingleLineChart header="Number of Users Visited" label={"Number of Users Visted: "} data={usersData} backgroundColor={colorObj.user.light} labelsArr={labelsArr} />
+                    <SingleLineChart header="Click Through Rate" label={"CTR: "} data={ctrData} backgroundColor={colorObj.ctr.light} labelsArr={labelsArr} />
 
                 </CCol>
                 <CCol sm="12" lg="3">

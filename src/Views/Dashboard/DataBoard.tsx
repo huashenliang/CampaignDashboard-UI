@@ -3,13 +3,11 @@ import { useParams, Redirect } from "react-router-dom";
 import { RootStore } from "../../Store";
 import { useSelector } from "react-redux";
 import { fetchCampaginDetailById } from "../../Util/api";
-import SingleLineChart from "../../Components/Chart/LineChart/SingleLineChart";
-import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
-import {
-    CContainer, CNavItem, CSidebar, CSidebarNav, CSidebarNavItem, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon, CWidgetSimple, CWidgetIcon
-} from "@coreui/react";
+import { CContainer } from "@coreui/react";
+import { BoardType } from "../../Components/SideBar";
 import * as _ from "lodash";
 import AllBoards from "./AllBoards";
+import ImpressionsBoard from "./SingleTypeBoard";
 
 interface DashboardParams {
     id: string
@@ -26,24 +24,6 @@ interface CampaignData {
     users: number
 }
 
-export const colorObj = {
-    impression: {
-        light: "#4e51c1",
-        dark: "#1f1498"
-    },
-    click: {
-        light: "#6da4e4",
-        dark: "#2982cc"
-    },
-    user: {
-        light: "#f0b764",
-        dark: "#f9b115"
-    },
-    ctr: {
-        light: "#da7673",
-        dark: "#e55353"
-    }
-}
 const DataBoard: React.FC = () => {
     const [counter, setCounter] = useState(0);
 
@@ -51,6 +31,7 @@ const DataBoard: React.FC = () => {
     const [clicksData, setClicksData] = useState<number[]>([]);
     const [usersData, setUsersData] = useState<number[]>([]);
     const [ctrData, setCtrData] = useState<number[]>([]);
+    const [labelsArr, setLabelArr] = useState<number[]>([]);
 
     const [recentImpressions, setRecentImpressions] = useState<number>(0);
     const [recentClicks, setRecentClicks] = useState<number>(0);
@@ -59,6 +40,7 @@ const DataBoard: React.FC = () => {
 
     const param = useParams<DashboardParams>();
     const campaignName = useSelector((state: RootStore) => state.currentCamp.campaignName);
+    const boardType = useSelector((state: RootStore) => state.currentBoard.boardType);
 
     //Calculating total CTR by (total clicks/ total impressions * 100)
     const calculateCtr = (clicksArr: number[], impressionsArr: number[]): number => {
@@ -83,6 +65,7 @@ const DataBoard: React.FC = () => {
         setImpressionData(prev => [...prev, data.impressions]);
         setClicksData(prev => [...prev, data.clicks]);
         setUsersData(prev => [...prev, data.users]);
+        setLabelArr(prev => [...prev, counter]);
     }
 
     useEffect(() => {
@@ -114,21 +97,35 @@ const DataBoard: React.FC = () => {
         return <Redirect to="/" />
     }
 
-    return (
+    const conditionalRender = () => {
+        switch (boardType) {
+            case BoardType.All:
+                return <AllBoards
+                    campaignName={campaignName}
+                    impressionData={impressionData}
+                    clicksData={clicksData}
+                    usersData={usersData}
+                    ctrData={ctrData}
+                    counter={counter}
+                    recentImpressions={recentImpressions}
+                    recentClicks={recentClicks}
+                    recentUsers={recentUsers}
+                    recentCTR={recentCTR}
+                    labelsArr={labelsArr}
+                    conditiaonalColor={conditiaonalColor} />
 
+            case BoardType.Immpressions:
+                return <ImpressionsBoard impressionData={impressionData} recentImpressions={recentImpressions}
+                    counter={counter} conditiaonalColor={conditiaonalColor} labelsArr={labelsArr} />
+
+            default:
+                return <div></div>
+        }
+    }
+
+    return (
         <CContainer className="mt-5" >
-            <AllBoards
-                campaignName={campaignName}
-                impressionData={impressionData}
-                clicksData={clicksData}
-                usersData={usersData}
-                ctrData={ctrData}
-                counter={counter}
-                recentImpressions={recentImpressions}
-                recentClicks={recentClicks}
-                recentUsers={recentUsers}
-                recentCTR={recentCTR}
-                conditiaonalColor={conditiaonalColor} />
+            {conditionalRender()}
         </CContainer>
     );
 };
