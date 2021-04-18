@@ -4,6 +4,7 @@ export const CAMPAIGN_FAIL = "CAMPAIGN_FAIL";
 export const CAMPAIGN_SUCCESS = "CAMPAIGN_SUCCESS";
 
 export const SET_CURRENT_CAMP = "SET_CURRENT_CAMP";
+export const SET_BOARD_TYPE = "SET_BOARD_TYPE";
 
 // ============================== Campagin List ==============================
 export type CampaignType = {
@@ -33,3 +34,9 @@ export interface CurrentCamp {
 
 }
 export type CurrentCampDispatchTypes = CurrentCamp;
+
+// ============================== Side Bar Actions ==============================
+export interface CurrentBoardType {
+    type: typeof SET_BOARD_TYPE,
+    payload: string
+}
