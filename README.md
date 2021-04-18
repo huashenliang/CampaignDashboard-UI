@@ -22,3 +22,10 @@ Project Structure:
     -   Datagrid Component 
     -   Header Component 
     -   Dashboard Components
+
+CI/CD Process:
+    -   Push to main branch to trigger pipeline (AWS Codepipeline)
+    -   Build docker image and push to AWS ECR
+    -   Using eks-deployment.yml to deploy to the cluster
+    -   kubernetes folder contains ingress and service config yaml.
+
