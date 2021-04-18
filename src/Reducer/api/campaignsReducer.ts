@@ -1,20 +1,27 @@
-import { SET_CAMPAIGNLIST } from '../../Actions/actionTypes';
-import { CampaignAction, ICampaign } from '../../Actions/getCampaignAction';
-
-const initialState = {
-    campaigns: []
+import { CAMPAIGN_FAIL, CAMPAIGN_LOADING, CAMPAIGN_SUCCESS, CampaignDispatchTypes, CampaignType } from '../../Actions/actionTypes';
+interface ICampaignState {
+    loading: boolean,
+    campaignList?: CampaignType
 }
 
-export interface ICampaignState {
-    campaigns: ICampaign[]
+const initialState: ICampaignState = {
+    loading: false
 }
 
-export const campaignsReducer = (state: ICampaignState = initialState, action: CampaignAction) => {
+export const campaignsReducer = (state: ICampaignState = initialState, action: CampaignDispatchTypes): ICampaignState => {
     switch (action.type) {
-        case SET_CAMPAIGNLIST:
+        case CAMPAIGN_FAIL:
             return {
-                ...state,
-                campaigns: action.payload,
+                loading: false
+            }
+        case CAMPAIGN_LOADING:
+            return {
+                loading: true
+            }
+        case CAMPAIGN_SUCCESS:
+            return {
+                loading: false,
+                campaignList: action.payload
             }
         default:
             return state;

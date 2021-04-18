@@ -1,1 +1,11 @@
 // Here you can add other styles
+$sidebar-breakpoint: 992px;
+
+@media (max-width: $sidebar-breakpoint){
+    .my-sidar{
+        display: none;
+    }
+    .c-sidebar-backdrop{
+        background-color: transparent !important; 
+    }
+}

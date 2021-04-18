@@ -1,16 +1,24 @@
-import { SET_CAMPAIGNLIST } from "./actionTypes";
+import { Dispatch } from "react";
+import { CAMPAIGN_FAIL, CAMPAIGN_SUCCESS, CAMPAIGN_LOADING, CampaignDispatchTypes } from "./actionTypes";
+import { fetchCampaignList } from "../Util/api";
 
-export interface ICampaign {
-    id: number,
-    name: string
-}
+export const setCampaignList = () => async (dispatch: Dispatch<CampaignDispatchTypes>) => {
+    try {
+        dispatch({
+            type: CAMPAIGN_LOADING
+        })
 
-export type CampaignAction = {
-    type: string,
-    payload: ICampaign[]
-}
+        const res = await fetchCampaignList();
 
-export const setCampaignList = (campaignList: ICampaign[]): CampaignAction => ({
-    type: SET_CAMPAIGNLIST,
-    payload: campaignList,
-});
+        dispatch({
+            type: CAMPAIGN_SUCCESS,
+            payload: res.data
+        })
+
+    } catch (e) {
+        dispatch({
+            type: CAMPAIGN_FAIL
+        })
+    }
+
+};
