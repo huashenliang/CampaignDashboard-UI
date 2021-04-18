@@ -1,5 +1,5 @@
 import React from "react";
-import { CContainer, CRow, CCol, CWidgetSimple } from "@coreui/react";
+import { CContainer, CRow, CCol, CWidgetSimple, CFade } from "@coreui/react";
 import SingleLineChart from "../../Components/Chart/LineChart/SingleLineChart";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
 import { colorObj, DataObj } from "../../Util/util";
