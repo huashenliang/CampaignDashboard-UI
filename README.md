@@ -1,3 +1,5 @@
+Visit live site: http://dashboard.huashenliang.com/
+
 Run in local env:
 - npm install
 - npm run start 
