@@ -154,20 +154,8 @@ const DataBoard: React.FC = () => {
                     colorObj={colorObj.ctr} text={BoardType.CTR}
                     counter={counter} conditiaonalColor={conditiaonalColor} labelsArr={labelsArr} />
 
-            // default:
-            //     return <AllBoards
-            //         campaignName={campaignName}
-            //         impressionData={impressionData}
-            //         clicksData={clicksData}
-            //         usersData={usersData}
-            //         ctrData={ctrData}
-            //         counter={counter}
-            //         recentImpressions={recentImpressions}
-            //         recentClicks={recentClicks}
-            //         recentUsers={recentUsers}
-            //         recentCTR={recentCTR}
-            //         labelsArr={labelsArr}
-            //         conditiaonalColor={conditiaonalColor} />
+            default:
+                return <> </>
         }
     }
 

@@ -23,8 +23,8 @@ const SingleTypeBoard: React.FC<Props> = (props) => {
     const { dataObj, labelsArr, counter, colorObj, text, conditiaonalColor } = props;
     console.log("rececntData: ", dataObj);
     return (
-        <CContainer className="mt-5" >
-            <CRow className="mt-3">
+        <CContainer >
+            <CRow>
                 <CCol sm="12" lg="6">
                     <SimpleLineChartCard color={colorObj.main} text={`Total ${text}`}
                         pointHoverBackgroundColor="primary"

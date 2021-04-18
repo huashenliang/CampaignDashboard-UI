@@ -18,17 +18,11 @@ type Props = {
 
 const AllBoards: React.FC<Props> = (props) => {
 
-    const { campaignName, impressionData, clicksData, usersData, ctrData, labelsArr, counter, conditiaonalColor } = props;
+    const { impressionData, clicksData, usersData, ctrData, labelsArr, counter, conditiaonalColor } = props;
 
     return (
-        <CContainer className="mt-5" >
+        <CContainer >
             <CRow>
-                <CCol>
-                    <h1>Campaign: {campaignName}</h1>
-                </CCol>
-            </CRow>
-
-            <CRow className="mt-3">
                 <CCol sm="6" lg="3">
                     <SimpleLineChartCard color="gradient-primary" text="Total Impressions"
                         pointHoverBackgroundColor="primary"

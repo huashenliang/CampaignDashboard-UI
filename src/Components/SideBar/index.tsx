@@ -14,13 +14,12 @@ export enum BoardType {
 }
 
 const SideBar: React.FC = () => {
-    const [showSideBar, setShowSideBar] = useState<boolean>(true);
     const history = useHistory();
     const dispatch = useDispatch();
 
     return (
         <>
-            <CSidebar className="my-sidar" show={showSideBar}>
+            <CSidebar className="my-sidar" show={true}>
                 <img className="m-4" src={logo}></img>
                 <CSidebarNav>
                     <CSidebarNavItem>
