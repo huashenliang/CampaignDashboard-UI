@@ -40,3 +40,4 @@ export interface CurrentBoardType {
     type: typeof SET_BOARD_TYPE,
     payload: string
 }
+export type CurrentBoardDispatchType = CurrentBoardType;

@@ -1,53 +1,58 @@
 import React from 'react';
-import {
-    CContainer, CNavItem, CSidebar, CSidebarNav, CSidebarNavItem, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon, CWidgetSimple, CWidgetIcon
-} from "@coreui/react";
+import { CContainer, CRow, CCol, CWidgetSimple } from "@coreui/react";
 import SingleLineChart from "../../Components/Chart/LineChart/SingleLineChart";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
-import { colorObj } from "../../Util/util";
+import { DataObj } from "../../Util/util";
 
+interface colorObj {
+    main: string,
+    light: string,
+    dark: string,
+}
 
 type Props = {
-    impressionData: number[],
+    text: string,
+    dataObj: DataObj,
     labelsArr: number[],
+    colorObj: colorObj,
     counter: number,
-    recentImpressions: number,
     conditiaonalColor: (current: number, arr: number[]) => string;
 }
 
-const ImpressionsBoard: React.FC<Props> = (props) => {
-    const { impressionData, labelsArr, counter, recentImpressions, conditiaonalColor } = props;
+const SingleTypeBoard: React.FC<Props> = (props) => {
+    const { dataObj, labelsArr, counter, colorObj, text, conditiaonalColor } = props;
+    console.log("rececntData: ", dataObj);
     return (
         <CContainer className="mt-5" >
             <CRow className="mt-3">
                 <CCol sm="12" lg="6">
-                    <SimpleLineChartCard color="gradient-primary" text="Total Impressions"
+                    <SimpleLineChartCard color={colorObj.main} text={`Total ${text}`}
                         pointHoverBackgroundColor="primary"
-                        pointBackgroundColor={colorObj.impression.dark}
-                        label="Impressions"
+                        pointBackgroundColor={colorObj.dark}
+                        label={text}
                         labels="Seconds"
-                        chartData={impressionData}
+                        chartData={dataObj.dataArr}
                         showSum={true}
+                        headerNumber={dataObj.totalNumber}
                     />
                 </CCol>
 
                 <CCol sm="12" lg="3">
                     <CWidgetSimple header="Current Number of Pull" text={(counter + 1).toString()} />
                 </CCol>
-                <CCol sm="12" lg="3">
-                    <CWidgetSimple header="Recent Impressions" text={recentImpressions.toString()} style={{ color: conditiaonalColor(recentImpressions, impressionData) }} />
-                </CCol>
 
+                <CCol sm="12" lg="3">
+                    <CWidgetSimple header={`Recent ${text}`} text={dataObj.recentNumber.toString()} style={{ color: conditiaonalColor(dataObj.recentNumber, dataObj.dataArr) }} />
+                </CCol>
             </CRow>
 
             <CRow>
                 <CCol sm="12" lg="12">
-                    <SingleLineChart header="Number of Impressions" label={"Impressions Number: "} data={impressionData} backgroundColor={colorObj.impression.light} labelsArr={labelsArr} />
+                    <SingleLineChart header={`Number of ${text}`} label={`${text} Number: `} data={dataObj.dataArr} backgroundColor={colorObj.light} labelsArr={labelsArr} />
                 </CCol>
-
             </CRow>
         </CContainer>
     )
 }
 
-export default ImpressionsBoard;
+export default SingleTypeBoard;

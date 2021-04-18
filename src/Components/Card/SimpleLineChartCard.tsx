@@ -5,6 +5,7 @@ import ChartLineSimple from "../Chart/ChartLineSimple";
 
 type Props = {
     chartData: number[] | [],
+    headerNumber: number,
     color: string,
     text: string,
     label: string,
@@ -16,9 +17,7 @@ type Props = {
 
 const SimpleLineChartCard: React.FC<Props> = (props) => {
 
-    const { chartData, color, text, pointBackgroundColor, pointHoverBackgroundColor, label, labels, showSum } = props;
-    const [currentSum, setCurrentSum] = useState(0);
-    const [currentNum, setCurrentNum] = useState(0);
+    const { chartData, headerNumber, color, text, pointBackgroundColor, pointHoverBackgroundColor, label, labels, showSum } = props;
 
     const chunckDataArr = (chartData: number[]): number[] | [] => {
         if (chartData.length > 10) return chartData.slice(-10);
@@ -26,24 +25,20 @@ const SimpleLineChartCard: React.FC<Props> = (props) => {
     }
 
     //conditional for CTR number
-    const conditionalCalculaion = () => {
-        if (showSum) {
-            if (chartData.length == 1) setCurrentSum(currentSum + chartData[0]);
-            if (chartData.length > 1) setCurrentSum(currentSum + chartData[chartData.length - 1]);
-        } else {
-            if (chartData.length == 1) setCurrentNum(chartData[0]);
-            if (chartData.length > 1) setCurrentNum(chartData[chartData.length - 1]);
-        }
-    }
-
-    useEffect(() => {
-        conditionalCalculaion();
-    }, [chartData]);
+    // const conditionalCalculaion = () => {
+    //     if (showSum) {
+    //         if (chartData.length == 1) setCurrentSum(currentSum + chartData[0]);
+    //         if (chartData.length > 1) setCurrentSum(currentSum + chartData[chartData.length - 1]);
+    //     } else {
+    //         if (chartData.length == 1) setCurrentNum(chartData[0]);
+    //         if (chartData.length > 1) setCurrentNum(chartData[chartData.length - 1]);
+    //     }
+    // }
 
     return (
         <CWidgetDropdown
             color={color}
-            header={showSum ? currentSum.toString() : currentNum.toFixed(2)}
+            header={headerNumber.toFixed(2)}
             text={text}
             footerSlot={
                 <ChartLineSimple

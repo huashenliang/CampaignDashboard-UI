@@ -7,12 +7,12 @@ import { CContainer } from "@coreui/react";
 import { BoardType } from "../../Components/SideBar";
 import * as _ from "lodash";
 import AllBoards from "./AllBoards";
-import ImpressionsBoard from "./SingleTypeBoard";
+import SingleTypeBoard from "./SingleTypeBoard";
+import { colorObj, DataObj, calculateRecentCTR, conditiaonalColor } from "../../Util/util";
 
 interface DashboardParams {
     id: string
 }
-
 interface data {
     impressions: number,
     clicks: number,
@@ -25,56 +25,79 @@ interface CampaignData {
 }
 
 const DataBoard: React.FC = () => {
+    const param = useParams<DashboardParams>();
+
     const [counter, setCounter] = useState(0);
 
-    const [impressionData, setImpressionData] = useState<number[]>([]);
-    const [clicksData, setClicksData] = useState<number[]>([]);
-    const [usersData, setUsersData] = useState<number[]>([]);
-    const [ctrData, setCtrData] = useState<number[]>([]);
+    const [impressionData, setImpressionData] = useState<DataObj>({ dataArr: [], recentNumber: 0, totalNumber: 0 });
+    const [clicksData, setClicksData] = useState<DataObj>({ dataArr: [], recentNumber: 0, totalNumber: 0 });
+    const [usersData, setUsersData] = useState<DataObj>({ dataArr: [], recentNumber: 0, totalNumber: 0 });
+    const [ctrData, setCtrData] = useState<DataObj>({ dataArr: [], recentNumber: 0, totalNumber: 0 });
     const [labelsArr, setLabelArr] = useState<number[]>([]);
 
-    const [recentImpressions, setRecentImpressions] = useState<number>(0);
-    const [recentClicks, setRecentClicks] = useState<number>(0);
-    const [recentUsers, setRecentUsers] = useState<number>(0);
-    const [recentCTR, setRecentCTR] = useState<number>(0);
-
-    const param = useParams<DashboardParams>();
     const campaignName = useSelector((state: RootStore) => state.currentCamp.campaignName);
     const boardType = useSelector((state: RootStore) => state.currentBoard.boardType);
 
-    //Calculating total CTR by (total clicks/ total impressions * 100)
-    const calculateCtr = (clicksArr: number[], impressionsArr: number[]): number => {
-        return Number((_.sum(clicksArr) / _.sum(impressionsArr) * 100).toFixed(2));
+    //Handling impressions data
+    const impressionHandler = (data: data) => {
+        const impressionDataObj = {
+            dataArr: [...impressionData.dataArr, data.impressions],
+            recentNumber: data.impressions,
+            totalNumber: impressionData.totalNumber + data.impressions
+        }
+        setImpressionData(impressionDataObj);
     }
 
-    const calculateRecentCTR = (clicks: number, impression: number): number => {
-        return Number((clicks / impression * 100).toFixed(2));
+    //Handling clicks data
+    const clicksHandler = (data: data) => {
+        const clicksDataObj = {
+            dataArr: [...clicksData.dataArr, data.clicks],
+            recentNumber: data.clicks,
+            totalNumber: clicksData.totalNumber + data.clicks
+        }
+        setClicksData(clicksDataObj);
     }
 
-    const conditiaonalColor = (current: number, arr: number[]): string => {
-        if (arr.length <= 1) return "";
-        if (current < arr[arr.length - 2]) return "red";
-        return "green";
+    //Handling users data
+    const usersHandler = (data: data) => {
+        const usersDataObj = {
+            dataArr: [...usersData.dataArr, data.users],
+            recentNumber: data.users,
+            totalNumber: usersData.totalNumber + data.users
+        }
+        setUsersData(usersDataObj);
     }
 
+    //Handling ctrs data
+    const ctrHandler = (clicksData: DataObj, impressionData: DataObj) => {
+        const newTotalCtr = calculateRecentCTR(clicksData.totalNumber, impressionData.totalNumber);
+        const recentCtr = calculateRecentCTR(clicksData.recentNumber, impressionData.recentNumber);
+        const ctrDataObj = {
+            dataArr: [...ctrData.dataArr, newTotalCtr],
+            recentNumber: recentCtr,
+            totalNumber: newTotalCtr
+        }
+        setCtrData(ctrDataObj);
+    }
+
+    //Setting all data objects
     const setAllData = (data: data) => {
-        setRecentClicks(data.clicks);
-        setRecentUsers(data.users);
-        setRecentImpressions(data.impressions);
-        setRecentCTR(calculateRecentCTR(data.clicks, data.impressions));
-        setImpressionData(prev => [...prev, data.impressions]);
-        setClicksData(prev => [...prev, data.clicks]);
-        setUsersData(prev => [...prev, data.users]);
+        impressionHandler(data);
+        clicksHandler(data);
+        usersHandler(data);
         setLabelArr(prev => [...prev, counter]);
     }
 
+    //Side effect for CTR data as ctr is based on clicks and impression
     useEffect(() => {
-        if (clicksData.length && impressionData.length && clicksData.length == impressionData.length) {
-            setCtrData(prev => [...prev, calculateCtr(clicksData, impressionData)]);
+        const clicksLength = clicksData.dataArr.length;
+        const impressLength = clicksData.dataArr.length;
+        if (clicksLength && impressLength && clicksLength == impressLength) {
+            ctrHandler(clicksData, impressionData);
         }
     }, [clicksData, impressionData])
 
-
+    //Side effect when the counter increase - call api to fetch data
     useEffect(() => {
         let mount = true;
         const fetchData = async () => {
@@ -86,6 +109,7 @@ const DataBoard: React.FC = () => {
 
         //set timer, run fetch data every 5 seconds
         const interval = setInterval(() => setCounter(counter + 1), 5000);
+
         //clearing when unmount
         return () => {
             clearInterval(interval);
@@ -107,19 +131,43 @@ const DataBoard: React.FC = () => {
                     usersData={usersData}
                     ctrData={ctrData}
                     counter={counter}
-                    recentImpressions={recentImpressions}
-                    recentClicks={recentClicks}
-                    recentUsers={recentUsers}
-                    recentCTR={recentCTR}
                     labelsArr={labelsArr}
                     conditiaonalColor={conditiaonalColor} />
 
             case BoardType.Immpressions:
-                return <ImpressionsBoard impressionData={impressionData} recentImpressions={recentImpressions}
+                return <SingleTypeBoard dataObj={impressionData}
+                    colorObj={colorObj.impression} text={BoardType.Immpressions}
                     counter={counter} conditiaonalColor={conditiaonalColor} labelsArr={labelsArr} />
 
-            default:
-                return <div></div>
+            case BoardType.Clicks:
+                return <SingleTypeBoard dataObj={clicksData}
+                    colorObj={colorObj.click} text={BoardType.Clicks}
+                    counter={counter} conditiaonalColor={conditiaonalColor} labelsArr={labelsArr} />
+
+            case BoardType.User:
+                return <SingleTypeBoard dataObj={usersData}
+                    colorObj={colorObj.user} text={BoardType.User}
+                    counter={counter} conditiaonalColor={conditiaonalColor} labelsArr={labelsArr} />
+
+            case BoardType.CTR:
+                return <SingleTypeBoard dataObj={ctrData}
+                    colorObj={colorObj.ctr} text={BoardType.CTR}
+                    counter={counter} conditiaonalColor={conditiaonalColor} labelsArr={labelsArr} />
+
+            // default:
+            //     return <AllBoards
+            //         campaignName={campaignName}
+            //         impressionData={impressionData}
+            //         clicksData={clicksData}
+            //         usersData={usersData}
+            //         ctrData={ctrData}
+            //         counter={counter}
+            //         recentImpressions={recentImpressions}
+            //         recentClicks={recentClicks}
+            //         recentUsers={recentUsers}
+            //         recentCTR={recentCTR}
+            //         labelsArr={labelsArr}
+            //         conditiaonalColor={conditiaonalColor} />
         }
     }
 

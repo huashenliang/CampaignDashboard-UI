@@ -2,28 +2,23 @@ import React from "react";
 import { CContainer, CRow, CCol, CWidgetSimple } from "@coreui/react";
 import SingleLineChart from "../../Components/Chart/LineChart/SingleLineChart";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
-import { colorObj } from "../../Util/util";
+import { colorObj, DataObj } from "../../Util/util";
 
 type Props = {
     campaignName: string,
-    impressionData: number[],
-    clicksData: number[],
-    usersData: number[],
-    ctrData: number[],
+    impressionData: DataObj,
+    clicksData: DataObj,
+    usersData: DataObj,
+    ctrData: DataObj,
     labelsArr: number[],
     counter: number,
-    recentImpressions: number,
-    recentClicks: number,
-    recentUsers: number,
-    recentCTR: number,
     conditiaonalColor: (current: number, arr: number[]) => string;
 }
 
 
 const AllBoards: React.FC<Props> = (props) => {
 
-    const { campaignName, impressionData, clicksData, usersData, ctrData, labelsArr, counter, recentImpressions, recentClicks,
-        recentUsers, recentCTR, conditiaonalColor } = props;
+    const { campaignName, impressionData, clicksData, usersData, ctrData, labelsArr, counter, conditiaonalColor } = props;
 
     return (
         <CContainer className="mt-5" >
@@ -40,8 +35,9 @@ const AllBoards: React.FC<Props> = (props) => {
                         pointBackgroundColor={colorObj.impression.dark}
                         label="Impressions"
                         labels="Seconds"
-                        chartData={impressionData}
+                        chartData={impressionData.dataArr}
                         showSum={true}
+                        headerNumber={impressionData.totalNumber}
                     />
                 </CCol>
                 <CCol sm="6" lg="3">
@@ -50,8 +46,9 @@ const AllBoards: React.FC<Props> = (props) => {
                         label="Clicks"
                         labels="Seconds"
                         pointBackgroundColor={colorObj.click.dark}
-                        chartData={clicksData}
+                        chartData={clicksData.dataArr}
                         showSum={true}
+                        headerNumber={clicksData.totalNumber}
                     />
                 </CCol>
                 <CCol sm="6" lg="3">
@@ -60,8 +57,9 @@ const AllBoards: React.FC<Props> = (props) => {
                         label="Users"
                         labels="Seconds"
                         pointBackgroundColor={colorObj.user.dark}
-                        chartData={usersData}
+                        chartData={usersData.dataArr}
                         showSum={true}
+                        headerNumber={usersData.totalNumber}
                     />
                 </CCol>
                 <CCol sm="6" lg="3">
@@ -70,8 +68,9 @@ const AllBoards: React.FC<Props> = (props) => {
                         label="CTR"
                         labels="Seconds"
                         pointBackgroundColor={colorObj.ctr.dark}
-                        chartData={ctrData}
+                        chartData={ctrData.dataArr}
                         showSum={false}
+                        headerNumber={ctrData.totalNumber}
                     />
 
                 </CCol>
@@ -79,18 +78,33 @@ const AllBoards: React.FC<Props> = (props) => {
 
             <CRow>
                 <CCol sm="12" lg="9">
-                    <SingleLineChart header="Number of Impressions" label={"Impressions Number: "} data={impressionData} backgroundColor={colorObj.impression.light} labelsArr={labelsArr} />
-                    <SingleLineChart header="Number of Clicks" label={"Number of Clicks: "} data={clicksData} backgroundColor={colorObj.click.light} labelsArr={labelsArr} />
-                    <SingleLineChart header="Number of Users Visited" label={"Number of Users Visted: "} data={usersData} backgroundColor={colorObj.user.light} labelsArr={labelsArr} />
-                    <SingleLineChart header="Click Through Rate" label={"CTR: "} data={ctrData} backgroundColor={colorObj.ctr.light} labelsArr={labelsArr} />
+                    <SingleLineChart header="Number of Impressions" label={"Impressions Number: "}
+                        data={impressionData.dataArr} backgroundColor={colorObj.impression.light} labelsArr={labelsArr} />
+
+                    <SingleLineChart header="Number of Clicks" label={"Number of Clicks: "}
+                        data={clicksData.dataArr} backgroundColor={colorObj.click.light} labelsArr={labelsArr} />
+
+                    <SingleLineChart header="Number of Users Visited" label={"Number of Users Visted: "}
+                        data={usersData.dataArr} backgroundColor={colorObj.user.light} labelsArr={labelsArr} />
+
+                    <SingleLineChart header="Click Through Rate" label={"CTR: "}
+                        data={ctrData.dataArr} backgroundColor={colorObj.ctr.light} labelsArr={labelsArr} />
 
                 </CCol>
                 <CCol sm="12" lg="3">
                     <CWidgetSimple header="Current Number of Pull" text={(counter + 1).toString()} />
-                    <CWidgetSimple header="Recent CTR" text={recentCTR.toString()} style={{ color: conditiaonalColor(recentCTR, ctrData) }} />
-                    <CWidgetSimple header="Recent Clicks" text={recentClicks.toString()} style={{ color: conditiaonalColor(recentClicks, clicksData) }} />
-                    <CWidgetSimple header="Recent Users" text={recentUsers.toString()} style={{ color: conditiaonalColor(recentUsers, usersData) }} />
-                    <CWidgetSimple header="Recent Impressions" text={recentImpressions.toString()} style={{ color: conditiaonalColor(recentImpressions, impressionData) }} />
+
+                    <CWidgetSimple header="Recent CTR" text={ctrData.recentNumber.toString()}
+                        style={{ color: conditiaonalColor(ctrData.recentNumber, ctrData.dataArr) }} />
+
+                    <CWidgetSimple header="Recent Clicks" text={clicksData.recentNumber.toString()}
+                        style={{ color: conditiaonalColor(clicksData.recentNumber, clicksData.dataArr) }} />
+
+                    <CWidgetSimple header="Recent Users" text={usersData.recentNumber.toString()}
+                        style={{ color: conditiaonalColor(usersData.recentNumber, usersData.dataArr) }} />
+
+                    <CWidgetSimple header="Recent Impressions" text={impressionData.recentNumber.toString()}
+                        style={{ color: conditiaonalColor(impressionData.recentNumber, impressionData.dataArr) }} />
                 </CCol>
             </CRow>
         </CContainer>

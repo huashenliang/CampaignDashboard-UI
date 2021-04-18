@@ -24,31 +24,21 @@ const SideBar: React.FC = () => {
                 <img className="m-4" src={logo}></img>
                 <CSidebarNav>
                     <CSidebarNavItem>
-                        <CNavItem>
-                            <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.All))}>
-                                All Metrics
+                        <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.All))}>
+                            All Metrics
                         </CLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.Immpressions))}>
-                                Impressions
+                        <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.Immpressions))}>
+                            Impressions
                         </CLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.Clicks))}>
-                                Clicks
+                        <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.Clicks))}>
+                            Clicks
                         </CLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.User))}>
-                                User
+                        <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.User))}>
+                            User
                         </CLink>
-                        </CNavItem>
-                        <CNavItem>
-                            <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.CTR))}>
-                                CTR
+                        <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.CTR))}>
+                            CTR
                         </CLink>
-                        </CNavItem>
                     </CSidebarNavItem>
                 </CSidebarNav>
                 back
