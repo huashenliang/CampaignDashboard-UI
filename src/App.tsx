@@ -1,8 +1,7 @@
 import React from 'react';
-import { Switch, Route, Redirect, BrowserRouter } from "react-router-dom";
+import { Switch, Route, BrowserRouter } from "react-router-dom";
 import CampaignList from "./Views/CampaignList";
 import DashboardLayout from "./Views/Dashboard/";
-import { CContainer, CFade } from '@coreui/react';
 import './Scss/style.scss';
 
 const App: React.FC = () => {
