@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { fetchCampaginDetailById } from "../../Util/api";
 import SingleLineChart from "../../Components/Chart/LineChart/SingleLineChart";
 import SimpleLineChartCard from "../../Components/Card/SimpleLineChartCard";
-import { CContainer, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon, CWidgetSimple } from "@coreui/react";
+import { CContainer, CCardBody, CCard, CRow, CCol, CWidgetProgressIcon, CWidgetSimple, CWidgetIcon } from "@coreui/react";
 import * as _ from "lodash";
 
 interface DashboardParams {
@@ -64,6 +64,12 @@ const Dashboard: React.FC = () => {
 
     const calculateRecentCTR = (clicks: number, impression: number): number => {
         return Number((clicks / impression * 100).toFixed(2));
+    }
+
+    const conditiaonalColor = (current: number, arr: number[]): string => {
+        if (arr.length <= 1) return "";
+        if (current < arr[arr.length - 2]) return "red";
+        return "green";
     }
 
     const setAllData = (data: data) => {
@@ -166,11 +172,11 @@ const Dashboard: React.FC = () => {
 
                 </CCol>
                 <CCol sm="12" lg="3">
-                    <CWidgetSimple header="Current Number of Pull" text={(counter + 1).toString()} />
-                    <CWidgetSimple header="Recent CTR" text={recentCTR.toString()} />
-                    <CWidgetSimple header="Recent Clicks" text={recentClicks.toString()} />
-                    <CWidgetSimple header="Recent Users" text={recentUsers.toString()} />
-                    <CWidgetSimple header="Recent Impressions" text={recentImpressions.toString()} />
+                    <CWidgetSimple header="Current Number of Pull" text={counter.toString()} />
+                    <CWidgetSimple header="Recent CTR" text={recentCTR.toString()} style={{ color: conditiaonalColor(recentCTR, ctrData) }} />
+                    <CWidgetSimple header="Recent Clicks" text={recentClicks.toString()} style={{ color: conditiaonalColor(recentClicks, clicksData) }} />
+                    <CWidgetSimple header="Recent Users" text={recentUsers.toString()} style={{ color: conditiaonalColor(recentUsers, usersData) }} />
+                    <CWidgetSimple header="Recent Impressions" text={recentImpressions.toString()} style={{ color: conditiaonalColor(recentImpressions, impressionData) }} />
                 </CCol>
             </CRow>
         </CContainer>
