@@ -42,7 +42,11 @@ const SideBar: React.FC = () => {
                     </CSidebarNavItem>
                 </CSidebarNav>
                 back
-                <CButton className="c-sidebar-minimizer" onClick={() => { history.push('/') }}></CButton>
+                <CButton className="c-sidebar-minimizer" onClick={() => {
+                    dispatch(setBoardType(BoardType.All));
+                    history.push('/');
+                }
+                }></CButton>
             </CSidebar>
 
         </>

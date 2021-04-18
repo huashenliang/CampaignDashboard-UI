@@ -40,7 +40,7 @@ const Datagrid: React.FC = () => {
             tableFilter
             footer
             itemsPerPageSelect
-            itemsPerPage={5}
+            itemsPerPage={10}
             hover
             striped
             sorter
