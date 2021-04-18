@@ -1,4 +1,4 @@
-import { createStore, combineReducers, applyMiddleware, compose } from "redux";
+import { combineReducers } from "redux";
 import { campaignsReducer } from "./api/campaignsReducer";
 import { currentCampReducer } from "./ui/currentCampReducer";
 
