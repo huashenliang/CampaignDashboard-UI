@@ -1,6 +1,15 @@
 // Here you can add other styles
 $sidebar-breakpoint: 992px;
 
+
+.slider-logo{
+    cursor: pointer;
+}
+
+.main-logo{
+    height: 200px;
+}
+
 @media (max-width: $sidebar-breakpoint){
     .my-sidar{
         display: none;

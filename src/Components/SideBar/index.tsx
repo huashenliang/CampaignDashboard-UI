@@ -20,7 +20,7 @@ const SideBar: React.FC = () => {
     return (
         <>
             <CSidebar className="my-sidar" show={true}>
-                <img className="m-4" src={logo}></img>
+                <img className="m-4 slider-logo" src={logo} onClick={() => history.push('/')}></img>
                 <CSidebarNav>
                     <CSidebarNavItem>
                         <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.All))}>
@@ -40,7 +40,7 @@ const SideBar: React.FC = () => {
                         </CLink>
                     </CSidebarNavItem>
                 </CSidebarNav>
-                back
+
                 <CButton className="c-sidebar-minimizer" onClick={() => {
                     dispatch(setBoardType(BoardType.All));
                     history.push('/');
