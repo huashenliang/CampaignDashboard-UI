@@ -9,7 +9,7 @@ export enum BoardType {
     All = "All",
     Immpressions = "Immpressions",
     Clicks = "Clicks",
-    User = "User",
+    User = "Users",
     CTR = "CTR"
 }
 
@@ -33,7 +33,7 @@ const SideBar: React.FC = () => {
                             Clicks
                         </CLink>
                         <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.User))}>
-                            User
+                            Users
                         </CLink>
                         <CLink className="c-sidebar-nav-link c-active" onClick={() => dispatch(setBoardType(BoardType.CTR))}>
                             CTR

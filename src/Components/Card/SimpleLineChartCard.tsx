@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { CWidgetDropdown, } from '@coreui/react';
 import ChartLineSimple from "../Chart/ChartLineSimple";
-
 
 type Props = {
     chartData: number[] | [],
@@ -23,17 +22,6 @@ const SimpleLineChartCard: React.FC<Props> = (props) => {
         if (chartData.length > 10) return chartData.slice(-10);
         return chartData;
     }
-
-    //conditional for CTR number
-    // const conditionalCalculaion = () => {
-    //     if (showSum) {
-    //         if (chartData.length == 1) setCurrentSum(currentSum + chartData[0]);
-    //         if (chartData.length > 1) setCurrentSum(currentSum + chartData[chartData.length - 1]);
-    //     } else {
-    //         if (chartData.length == 1) setCurrentNum(chartData[0]);
-    //         if (chartData.length > 1) setCurrentNum(chartData[chartData.length - 1]);
-    //     }
-    // }
 
     return (
         <CWidgetDropdown

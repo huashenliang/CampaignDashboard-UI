@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { CCard, CCardHeader, CCardBody } from "@coreui/react";
 import { CChartLine } from '@coreui/react-chartjs';
 

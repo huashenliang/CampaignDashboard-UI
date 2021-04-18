@@ -21,7 +21,7 @@ type Props = {
 
 const SingleTypeBoard: React.FC<Props> = (props) => {
     const { dataObj, labelsArr, counter, colorObj, text, conditiaonalColor } = props;
-    console.log("rececntData: ", dataObj);
+
     return (
         <CContainer >
             <CRow>
