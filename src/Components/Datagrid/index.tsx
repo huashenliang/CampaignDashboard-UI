@@ -38,13 +38,13 @@ const Datagrid: React.FC = () => {
             fields={fields}
             columnFilter
             tableFilter
-            footer
             itemsPerPageSelect
             itemsPerPage={10}
             hover
             striped
             sorter
             pagination
+            //footer
             //Although the requirement is to 'click either id or the name' but I think adding a view button will be better for user experience
             //The bellow code will work as required behaviour
             //onRowClick={(row: rowData) => handleRowClick(row)}

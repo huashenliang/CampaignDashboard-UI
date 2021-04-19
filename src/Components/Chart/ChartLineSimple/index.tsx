@@ -75,8 +75,8 @@ const ChartLineSimple: React.FC<Props> = props => {
                         display: false,
                         ticks: {
                             display: false,
-                            min: Math.min.apply(Math, dataPoints) - 5,
-                            max: Math.max.apply(Math, dataPoints) + 5
+                            min: Math.min.apply(Math, dataPoints) - 15,
+                            max: Math.max.apply(Math, dataPoints) + 15
                         }
                     }
                 ]
