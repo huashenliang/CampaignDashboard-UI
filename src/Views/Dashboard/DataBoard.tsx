@@ -91,7 +91,7 @@ const DataBoard: React.FC = () => {
     //Side effect for CTR data as ctr is based on clicks and impression
     useEffect(() => {
         const clicksLength = clicksData.dataArr.length;
-        const impressLength = clicksData.dataArr.length;
+        const impressLength = impressionData.dataArr.length;
         if (clicksLength && impressLength && clicksLength == impressLength) {
             ctrHandler(clicksData, impressionData);
         }
