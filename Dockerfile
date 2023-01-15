@@ -1,5 +1,6 @@
-FROM node:alpine as builder
-RUN apk add g++ make python
+FROM node:12.2.0-alpine as builder
+# RUN apk add g++ make python
+RUN apk add python3
 WORKDIR /app
 COPY . ./
 RUN npm install

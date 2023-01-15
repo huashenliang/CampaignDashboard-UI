@@ -1,10 +1,10 @@
 Visit live site: http://dashboard.huashenliang.com/
 
-Run in local env:
-- npm install
-- npm run start 
+Run in local env using Docker:
+- run docker build -t react-dashboard .
+- docker run -p 3000:80 react-dashboard
 - visit localhost:3000
-- local api should be running at port 4000, current dev api: http://k8s-dashboar-ingressd-ba97894f99-1331663444.us-east-1.elb.amazonaws.com 
+- make sure you have clone https://github.com/huashenliang/dashboard-api and your local api is running at port 4000, 
 - Uncomment the code section in /src/Store/index.ts to view redux dev tool for local development
 
 Project Structure:
