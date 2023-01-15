@@ -1,7 +1,7 @@
 Visit live site: http://dashboard.huashenliang.com/
 
 Run in local env using Docker:
-- run docker build -t react-dashboard .
+- docker build -t react-dashboard .
 - docker run -p 3000:80 react-dashboard
 - visit localhost:3000
 - make sure you have clone https://github.com/huashenliang/dashboard-api and your local api is running at port 4000, 
